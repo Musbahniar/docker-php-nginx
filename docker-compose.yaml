@@ -1,0 +1,40 @@
+version: '3'
+name: 'coba-docker'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    ports:
+      - '8080:80'
+    networks:
+      - internal
+    volumes:
+      - ./data/:/var/www/html
+      #- ./logs/nginx:/var/log/nginx
+
+  php:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    container_name: php7.4
+    networks:
+      - internal
+    volumes:
+      - ./data/:/var/www/html
+    #php:
+    # image: php:7.4.32-fpm
+    # php:
+    #   build:
+    #     context: .
+    #     dockerfile: php/Dockerfile
+    # networks:
+    #   - internal
+    # volumes:
+    #   - ./data/:/var/www/html/
+      #- ./logs/php.log:/var/log/fpm-php.www.log
+
+networks:
+  internal:
+    driver: bridge
